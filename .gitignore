@@ -2,6 +2,8 @@
 *.class
 .idea
 target
+.terraform*
+
 # Log file
 *.log
 
