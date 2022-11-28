@@ -1,3 +1,10 @@
-FROM adoptopenjdk/openjdk11
-COPY target/onlinestore-0.0.1-SNAPSHOT.jar /app/application.jar
+FROM maven:3.8.6-eclipse-temurin-11-alpine as builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn package
+
+FROM eclipse-temurin:11-alpine
+COPY --from=builder /app/target/*.jar /app/application.jar
 ENTRYPOINT ["java","-jar","/app/application.jar"]
+EXPOSE 8080
