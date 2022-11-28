@@ -17,6 +17,9 @@ så kan du velge disse reglene
   - Require approval of the most recent push
 - Require status checks to pass before merging
   - Require branches to be up to date before merging
+  - need to add status checks
+    - add status check: build
+    - add status check: terraform
 - Do not allow bypassing the above settings
 ![img_2.png](img/oppgave2.3.3.png)
 så kan du trykke save changes og da vil du ha branch protection på main branchen.
