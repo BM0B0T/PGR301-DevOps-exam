@@ -1,18 +1,25 @@
 package no.shoppifly;
 
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController()
-public class ShoppingCartController {
+public class ShoppingCartController implements ApplicationListener<ApplicationReadyEvent> {
+
+    private final CartService cartService;
+    private final MeterRegistry meterRegistry;
 
     @Autowired
-    private final CartService cartService;
-
-    public ShoppingCartController(CartService cartService) {
+    public ShoppingCartController(CartService cartService, MeterRegistry meterRegistry) {
         this.cartService = cartService;
+        this.meterRegistry = meterRegistry;
     }
 
     @GetMapping(path = "/cart/{id}")
@@ -25,8 +32,10 @@ public class ShoppingCartController {
      *
      * @return an order ID
      */
+    @Timed(value = "checkout_latency")
     @PostMapping(path = "/cart/checkout")
     public String checkout(@RequestBody Cart cart) {
+        meterRegistry.counter("checkouts").increment();
         return cartService.checkout(cart);
     }
 
@@ -44,11 +53,22 @@ public class ShoppingCartController {
     /**
      * return all cart IDs
      *
-     * @return
+     * @return list of cart IDs
      */
     @GetMapping(path = "/carts")
     public List<String> getAllCarts() {
         return cartService.getAllsCarts();
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+
+        // Antall handlekurver på et gitt tidspunkt i tid - verdien kan gå opp og ned ettersom kunder sjekker ut handlekurver og nye blir laget.
+        Gauge.builder("carts", cartService, CartService::size).register(meterRegistry);
+
+        // Antall handlekurver på et gitt tidspunkt i tid - verdien kan gå opp og ned ettersom kunder sjekker ut handlekurver og nye blir laget.
+        Gauge.builder("cartsvalue", cartService, CartService::total).register(meterRegistry);
+
     }
 
 
