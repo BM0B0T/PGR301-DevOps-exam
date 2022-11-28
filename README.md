@@ -37,3 +37,8 @@ for at docker pipelinen skal kjøre må disse punktene være gjort.
 - må ha 2 steg for at docker/build-push-action@v3 skal fungere. [ref](https://github.com/docker/build-push-action#path-context)
   - docker/setup-qemu-action@v2 
   - docker/setup-buildx-action@v2
+
+### Oppgave 3
+Får å få docker image til å publishe til din egen ECR må du ha AWS_ACCESS_KEY_ID og AWS_SECRET_ACCESS_KEY i github secrets.
+du må også ender env verdien "ECR_REGISTRY_NAME" i pipelinen til din egen ECR registry name.
+så vil den publish til din egen ECR med sha tag og latest tag.
