@@ -7,8 +7,10 @@ for å kunne sette opp branch protection må du være admin på repoet.
 så må du gå inn /settings og så til branchs på venstre side. 
 der kan du velge main branchen, også kan du velge add branch protection rule.
 ![oppgave2.3.1.png](img/oppgave2.3.1.png)
+
 så må du skrive inn i branch name pattern: main
 ![img.png](img/oppgave2.3.2.png)
+
 så kan du velge disse reglene
 - Require a pull request before merging
   - Require approvals before merging
@@ -22,4 +24,5 @@ så kan du velge disse reglene
     - add status check: terraform
 - Do not allow bypassing the above settings
 ![img_2.png](img/oppgave2.3.3.png)
+
 så kan du trykke save changes og da vil du ha branch protection på main branchen.
