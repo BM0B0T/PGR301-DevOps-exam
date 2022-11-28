@@ -7,7 +7,7 @@ import java.util.*;
 @Component
 class NaiveCartImpl implements CartService {
 
-    private final Map<String, Cart> shoppingCarts = new HashMap<>();
+    private final Map <String, Cart> shoppingCarts = new HashMap <>();
 
     @Override
     public Cart getCart(String id) {
@@ -16,7 +16,7 @@ class NaiveCartImpl implements CartService {
 
     @Override
     public Cart update(Cart cart) {
-        if (cart.getId() == null) {
+        if(cart.getId() == null){
             cart.setId(UUID.randomUUID().toString());
         }
         shoppingCarts.put(cart.getId(), cart);
@@ -30,15 +30,19 @@ class NaiveCartImpl implements CartService {
     }
 
     @Override
-    public List<String> getAllsCarts() {
-        return new ArrayList<>(shoppingCarts.keySet());
+    public List <String> getAllsCarts() {
+        return new ArrayList <>(shoppingCarts.keySet());
     }
 
-    // @author Jim; I'm so proud of this one, took me one week to figure out !!!
-    public float total() {
-        return shoppingCarts.values().stream()
-                .flatMap(c -> c.getItems().stream()
-                        .map(i -> i.getUnitPrice() * i.getQty()))
-                .reduce(0f, Float::sum);
+    @Override
+    public int size() {
+        return shoppingCarts.size();
+    }
+
+    @Override
+    public double total() {
+        return shoppingCarts.values().stream().mapToDouble(c ->
+                c.getItems().stream().mapToDouble(i -> i.getQty() * i.getUnitPrice()).sum()
+        ).sum();
     }
 }
