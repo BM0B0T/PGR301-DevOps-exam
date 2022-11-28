@@ -1,12 +1,11 @@
-# Jim; I'm giving up on this docker thing. It just fails ,and I've spent about six weeks on this...
 name: Docker build
 on:
-#  push:
-#    branches: [ main ]
-#  pull_request:
-#    branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,9 +16,14 @@ jobs:
           distribution: 'adopt'
           cache: maven
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Build with Maven
-        # Jim; Just skipping test for now
-        run: mvn --no-transfer-progress -B package -DskipTests --file pom.xml
+        run: mvn --no-transfer-progress -B package --file pom.xml
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2

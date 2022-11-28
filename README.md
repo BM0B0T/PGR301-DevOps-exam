@@ -22,7 +22,18 @@ så kan du velge disse reglene
   - need to add status checks
     - add status check: build
     - add status check: terraform
+    - add status check: docker
 - Do not allow bypassing the above settings
 ![img_2.png](img/oppgave2.3.3.png)
 
 så kan du trykke save changes og da vil du ha branch protection på main branchen.
+
+
+## Del 3 - Docker
+### Oppgave 1
+for at docker pipelinen skal kjøre må disse punktene være gjort.
+- docker hub userName og password må ligge i github secrets på repoet.
+- må bruke riktig jdk version i docker filen som pom.xml burker ex. "adoptopenjdk/openjdk11"
+- må ha 2 steg for at docker/build-push-action@v3 skal fungere. [ref](https://github.com/docker/build-push-action#path-context)
+  - docker/setup-qemu-action@v2 
+  - docker/setup-buildx-action@v2
