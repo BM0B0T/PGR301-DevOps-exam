@@ -22,7 +22,7 @@ jobs:
           rev=$(git rev-parse --short HEAD)
           docker build . -t shopify
           docker tag shopify 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ env.ECR_REGISTRY_NAME }}:$rev
-          if [ "$GITHUB_EVENT_NAME" = "push" ] && ["$GITHUB_REF" == "refs/heads/main"]
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REF" == "refs/heads/main" ]
           then
             docker tag shopify 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ env.ECR_REGISTRY_NAME }}:latest
           fi
