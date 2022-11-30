@@ -119,3 +119,7 @@ terraform {
   }
 }
 ```
+
+## EXTRA
+Jeg har lagt til terraform fil for å lage en appRunner men komentert den ut fordi den ikke er en del av oppgaven og ville ikke bruke opp aws resursene på den.
+Jeg har også lagt til laging av ECR i terraform.
