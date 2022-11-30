@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 env:
-  ECR_REGISTRY_NAME: 1056-private
+  ECR_REGISTRY_NAME: 1056-repository
 
 jobs:
   docker:
